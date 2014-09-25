@@ -1,19 +1,18 @@
 ason
 ====
 
-abcd
-a=int32 (<0 means compressed,abs(a)=original size)
-b=int32 (string table size, optional 0=not exist)
+bcd
+b=int32 (string table size, optional 0=not exist, if b>0x70000000 32bit ID,else 16bit Id)
 c=string table
 d=data table
 
 c=efg
-e=int32 (key id)
+e=int32 or int16 (key id)
 f=int8 (length of g)
 g=cstring(without \0)
 
 d=hij
-h=int32 (key id)
+h=int32 or int16 (key id)
 i=int8 (type)
 j=data
 
