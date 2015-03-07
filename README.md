@@ -4,15 +4,37 @@ Features
 ====
 1. Json compatible, exchangable with json text format.
 2. both stream mode,structure mode
-3. fast
+3. fast & small
 ====
 usage
 ====
+using namespace diz;
+for read from file (both json or ason):
+AsonValue value = Ason::Parse("");
+
+read data:
+value["a1"][2].getCString();
+value["a1"][3].asCString();
+
+serialize:
+Ason::Serialize(value); // serialize to ason
+Ason::Serialize(value); // serialize to json
+
+to json string:
+std::string str = Ason::ToJsonString(value);
+
+====
 performance
+====
+ason            small              medium          large
+rapidjson
+jsoncpp
+msgstack
 ====
 limitions
 ====
 1. strings in UTF-8 only.
+2. C++ 11 required.
 ====
 format spec.
 ====
