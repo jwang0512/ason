@@ -11,17 +11,18 @@ Features
 
 performance & size
 ----
-datasample       | json size | ason size | ratio%
+data sample      | json size | ason size |ratio%
 -----------------|-----------|-----------|-------
-webapp.ason      |3,554      |2,048      |57.6%
-citm_catalog.ason|1,727,204  |198,979    |11.5%
+webapp.json      |3,554      |2,048      |57.6%
+citm_catalog.json|1,727,204  |198,979    |11.5%
+citylots.json    |189,778,220|89,104,384 |46.9%
 
-library      |small(3,554)    |medium(1,727,204)   |large
--------------|---------|---------|---------
-ason         |0|0|0
+test method: parse each file for 100 times, counting the total time.
+library      |small(3,554)    |medium(1,727,204)   |large(189,778,220)
+-------------|----------------|--------------------|---------
+ason         |6.57 ms         |328.72 ms           |2479.57 ms
 rapidjson    |0|0|0
 jsoncpp      |0|0|0
-msgstack     |0|0|0
 
 usage
 ----
