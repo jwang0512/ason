@@ -52,22 +52,22 @@ std::string str = Ason::ToJsonString(value);
 format spec.
 ----
 >header 4bytes (32bit):
->>`bit31 :` must be 1
-`bit30 :` big id flag.
-`bit24-29 :` reserved.
-`bit0-24 :` dict table size(in bytes).
+>>`bit31 :` must be 1<br>
+>>`bit30 :` big id flag.<br>
+>>`bit24-29 :` reserved.<br>
+>>`bit0-24 :` dict table size(in bytes).
 
 >Dict Table (*optional)
->>[id][length of name][name string(UTF-8)]......[id][length of name][name string(UTF-8)]
-`id:` 4bytes when big id flag was set. otherwise 2 bytes.
-`length of name:` 1byte
-`name string:` UTF-8 bytes without \0 tail.
+>>[id][length of name][name string(UTF-8)]......[id][length of name][name string(UTF-8)]<br>
+>>`id:` 4bytes when big id flag was set. otherwise 2 bytes.<br>
+>>`length of name:` 1byte<br>
+>>`name string:` UTF-8 bytes without \0 tail.
 
 >data: [type(1byte)][*value]
->>`type:` (1byte)
+>>`type:` (1byte)<br>
 >>`value:` (*may not exist)
 
-type      |    |value format
+>>type      |    |value format
 ----------|----|---------------------------------------------------------------
 null      |0x01|not exist
 Bool True |0x02|not exist
@@ -91,4 +91,4 @@ array_1   |0x01|[len (1byte)][[value]....[value] of len size]
 array_2   |0x01|[len (2byte)][[value]....[value] of len size]
 array_4   |0x01|[len (4byte)][[value]....[value] of len size]
 
-`key :` 4bytes when big id flag was set. otherwise 2 bytes.
+>>>`key :` 4bytes when big id flag was set. otherwise 2 bytes.
