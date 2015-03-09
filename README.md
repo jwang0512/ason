@@ -1,4 +1,5 @@
 ASON
+* Copyright 2014,Dizsoft Inc. jwang@dizsoft.com
 ====
 
 Features
@@ -58,7 +59,7 @@ format spec.
 >>`type:` (1byte)
 >>`value:` (*may not exist)
 
-`type list:`
+type list:
 type      |value format
 ----------|---------
 null      |not exist
