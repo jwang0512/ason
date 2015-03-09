@@ -91,4 +91,4 @@ array_1   |0x01|[len (1byte)][[value]....[value] of len size]
 array_2   |0x01|[len (2byte)][[value]....[value] of len size]
 array_4   |0x01|[len (4byte)][[value]....[value] of len size]
 
->>>`key :` 4bytes when big id flag was set. otherwise 2 bytes.
+>>`key :` 4bytes when big id flag was set. otherwise 2 bytes.
