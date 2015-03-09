@@ -1,81 +1,86 @@
-Binary Json Compatible Format.(Exchangable with JSON text format)
+ASON
 ====
+
 Features
-====
+----
 1. Json compatible, exchangable with json text format.
 2. both stream mode,structure mode
 3. fast & small
-====
+
 usage
-====
-using namespace diz;
+----
 for read from file (both json or ason):
-AsonValue value = Ason::Parse("");
-
+``` cpp
+using namespace diz;
+std::FILE *file = fopen("test.ason"); // you can open json files too.
+AsonValue value = Ason::Parse(f);
+fclose(file)
+```
 read data:
-value["a1"][2].getCString();
-value["a1"][3].asCString();
-
+``` cpp
+AsonValue obj = value["object"]; // get object
+int intval1 = value["it"].getInt(); // "it" must be a int value.
+const char* str = value["a"][1].asCString(); // "it" will be casted to int automatically.
+```
 serialize:
-Ason::Serialize(value); // serialize to ason
-Ason::Serialize(value); // serialize to json
-
-to json string:
+``` cpp
+FILE *f = fopen("save.ason"); //  can save as json files too.
+Ason::Serialize(value,f); // serialize to ason
+Ason::Serialize(value,f,Ason::kFlagOutputJson); // serialize to json
+```
+ason to json string:
+``` cpp
 std::string str = Ason::ToJsonString(value);
-
-====
+```
 performance
-====
-ason            small              medium          large
-rapidjson
-jsoncpp
-msgstack
-====
-limitions
-====
-1. strings in UTF-8 only.
-2. C++ 11 required.
-====
+----
+library      |small    |medium   |large
+-------------|---------|---------|---------
+rapidjson    |0|0|0
+jsoncpp      |0|0|0
+msgstack     |0|0|0
+
 format spec.
-====
-[header:4bytes][*dict table: optional][data]
+----
+>header 4bytes (32bit):
+>>`bit31 :` must be 1
+`bit30 :` big id flag.
+`bit24-29 :` reserved.
+`bit0-24 :` dict table size(in bytes).
 
-header(32bit):
-bit31 : must be 1
-bit30 : big id flag.
-bit24-29 : reserved.
-bit0-24 : dict table size(in bytes).
+>Dict Table (*optional)
+>>[id][length of name][name string(UTF-8)]......[id][length of name][name string(UTF-8)]
+`id:` 4bytes when big id flag was set. otherwise 2 bytes.
+`length of name:` 1byte
+`name string:` UTF-8 bytes without \0 tail.
 
-dict table:
-[id][length of name][name string(UTF-8)]......[id][length of name][name string(UTF-8)]
-id: 4bytes when big id flag was set. otherwise 2 bytes.
-length of name: 1byte
-name string: UTF-8 bytes without \0 tail.
+>data: [type(1byte)][*value]
+>>`type:` (1byte)
+>>`value:` (*may not exist)
 
-data:
-[type(1byte)][*value]
+`type list:`
+type      |value format
+----------|---------
+null      |not exist
+Bool True |not exist
+Bool False|not exist
+int 8bit  |1byte int
+int 16bit |2byte int (network bytes order)
+int 32bit |4byte int (network bytes order)
+int 64bit |8byte int (network bytes order)
+float     |4byte float (network bytes order)
+double    |8byte double (network bytes order)
+string    |null termiated string.
+stirng_1  |[len (1byte)][string of len size without \0]
+stirng_2  |[len (2byte)][string of len size without \0]
+stirng_4  |[len (4byte)][string of len size without \0]
+object    | [*key][value]....[*key][value][*key of 0]
+object_1  |[len (1byte)][[*key][value]....[*key][value] of len size]
+object_2  |[len (2byte)][[*key][value]....[*key][value] of len size]
+object_4  |[len (4byte)][[*key][value]....[*key][value] of len size]
+array     |[value]....[value][type of 0]
+array_1   |[len (1byte)][[value]....[value] of len size]
+array_2   | [len (2byte)][[value]....[value] of len size]
+array_4   |[len (4byte)][[value]....[value] of len size]
 
-type list:
-null           not exist
-Bool True      not exist
-Bool False     not exist
-int 8bit       1byte int
-int 16bit      2byte int
-int 32bit      4byte int
-int 64bit      8byte int
-float          4byte float
-double         8byte double
-string         null termiated string.
-stirng_1       [len (1byte)][string of len size without \0]
-stirng_2       [len (2byte)][string of len size without \0]
-stirng_4       [len (4byte)][string of len size without \0]
-object         [key][value]....[key][value][key of 0]
-object_1       [len (1byte)][[key][value]....[key][value] of len size]
-object_2       [len (2byte)][[key][value]....[key][value] of len size]
-object_4       [len (4byte)][[key][value]....[key][value] of len size]
-array          [value]....[value][type of 0]
-array_1        [len (1byte)][[value]....[value] of len size]
-array_2        [len (2byte)][[value]....[value] of len size]
-array_4        [len (4byte)][[value]....[value] of len size]
-
-key : 4bytes when big id flag was set. otherwise 2 bytes.
+`key :` 4bytes when big id flag was set. otherwise 2 bytes.
