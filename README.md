@@ -56,7 +56,9 @@ Ason::Serialize(value,f,Ason::kFlagOutputAson); // 保存为ason格式，也可�
 ``` cpp
 std::string str = Ason::ToJsonString(value);
 ```
+
 >保存为字节流
+
 ``` cpp
 Ason::BytesBuffer buf = Ason::ToBytes(value);
 ```
