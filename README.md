@@ -77,7 +77,10 @@ ASON格式规范.
 >>`length of name:` 1byte<br>
 >>`name string:` UTF-8 bytes without \0 tail.
 
->data: [type(1byte)][*value]
+>>`key :` 4bytes when big id flag was set. otherwise 2 bytes.
+
+>data: [key][type(1byte)][*value]
+>>`key :` 4bytes when big id flag was set. otherwise 2 bytes.
 >>`type:` (1byte)<br>
 >>`value:` (*may not exist)
 
@@ -108,5 +111,3 @@ object    |0xF0|[*key][value]....[*key][value][*key of 0]
 object_1  |0xF1|[len (1byte)][[*key][value]....[*key][value] of len size]
 object_2  |0xF2|[len (2byte)][[*key][value]....[*key][value] of len size]
 object_4  |0xF4|[len (4byte)][[*key][value]....[*key][value] of len size]
-
->>`key :` 4bytes when big id flag was set. otherwise 2 bytes.
